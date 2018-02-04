@@ -39,6 +39,69 @@ tmpFn <- function(x){
 #the function should return the vector
 #the values of the function $f(x)$ evaluated at the values in \texttt{xVec}.  
 #Hence plot the function $f(x)$ for $-3 < x <3$
+tmpFn <- function(y){
+  ifelse(y<0,y^2+2*y+3, ifelse(y<2,y+3,y^2+4*y-7))
+}
+tmp <- seq(-3,3,len=100)
+plot(tmp,tmpFn(tmp),type="l")
+
+#4) Write a function which takes a single argument which is a matrix.
+#The function should return a matrix
+#which is the same as the function argument but every odd number is doubled.  
+#Hence the result of using the function on the matrix   
+#$$\begin{bmatrix}
+#1 & 1 & 3\\ 
+#5 & 2 & 6\\ 
+#-2 & -1 & -3
+#\end{bmatrix}$$
+#should be:
+#$$\begin{bmatrix}
+#2 & 2 & 6\\ 
+#10 & 2 & 6\\ 
+#-2 & -2 & -6
+#\end{bmatrix}$$
+func2 <- function(mat){
+  mat[mat%%2==1] <- 2*mat[mat%%2==1]
+  mat
+}
+
+#5) Write a function which takes 2 arguements $n$ and $k$
+#which are positive integers.
+#It should return the $\mathit{n} x \mathit{n}$ matrix:
+#$$\begin{bmatrix}
+#k & 1 & 0 & 0 & \cdots  & 0 & 0\\ 
+#1 & k & 1 & 0 & \cdots  & 0 & 0\\
+#0 & 1 & k & 1 & \cdots  & 0 & 0\\
+#0 & 0 & 1 & k & \cdots  & 0 & 0\\
+#\cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot\\ 
+#0 & 0 & 0 & 0 & \cdots  & k & 1\\
+#0 & 0 & 0 & 0 & \cdots  & 1 & k
+#\end{bmatrix}$$
+#First try to do it for a specific case such as n = 5 and k = 2 on the Command Line.
+mat <- diag(2, nr=5)
+mat[abs(row(mat)-col(mat))==1] <- 1
+mat
+#Now with k and n
+func3 <- function(n,k){
+  mat1 <- diag(k,nr=n)
+  mat1[abs(row(mat1)-col(mat1))==1] <- 1
+  mat1
+}
+
+#6) Suppose an angle $\alpha$ is given as a positive real number of degrees.  
+#If $0 \leq \alpha < 90$ then it is quadrant 1.  If $90 \leq \alpha < 180$ then it is quadrant 2.  
+#If $180 \leq \alpha < 270$ then it is quadrant3.  if $270 \leq \alpha < 360$ then it is quadrant 4.  
+#If $360 \leq \alpha < 450$ then it is quadrant 1.  
+#And so on ...
+#Write a function \texttt{quadrant(alpha)} which returns the quadrant of the angle $\alpha$.
+
+func4 <- function(alpha)
+{
+  floor(alpha/90)%%4 + 1
+}
+
+
+
 
 
 
