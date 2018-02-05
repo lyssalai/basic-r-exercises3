@@ -97,14 +97,54 @@ func3 <- function(n,k){
 
 func4 <- function(alpha)
 {
-  floor(alpha/90)%%4 + 1
+  floor(alpha/90)%%4+1
 }
 
+#7) Zeller's congruence is the formula:
+#$$ f = ([2.6m - 0.2] + k + y + [y/4] + [c/4] - 2c)mod 7 $$
+#where $[x]$ denotes the integer part of $x$; for example $[7.5] = 7$.
+#Zeller's congruence returns the day of the week $f$ given:
+#$k$ = the day of the month  
+#$y$ = the year in the century  
+#$c$ = the first 2 digits of the year (the century number)  
+#$m$ = the month number (where January is month 11 of the preceding year, February is month 12 of the preceding year, March is month 1, etc.)   
+#For example, the date 21/07/1`963 has $m = 5, k = 21, c = 19, y = 63$;  
+#the date 21/2/63 has $m=12, k=21, c=19, and y=62$.  
 
+#(a)Write a function \texttt{weekday(day,month,year)} which returns the day of the week when given the numerical inputs of the day, month and year.  
+#Note that the value of 1 for $f$ denotes Sunday, 2 denotes Monday, etc.
+weekday <- function(day,month,year){
+  month <- month-2
+  if(month<=0){
+    month <- month+12
+    year <- year-1
+  }
+  cc <- year%%100
+  year <- year%%100
+  a <- floor(2.6*month-0.2)+day+year+year%/%4+cc%/%4-2*cc
+  c("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")[1+a%%7]
+}
+#(b) Does your function work if the input parameters \text{day, month, and year} are vectors with the same length and valid entries?
+Yes, it still works.
 
+#8) Suppose x0 = 1 and x1 = 2 and xj = xj−1 + 2 xj−1 for j = 1, 2, . . . .
 
+#(a) Write a function testLoop which takes the single argument n and returns the first n − 1 values of the
+#sequence {xj}j≥0: that means the values of x0, x1, x2, . . . , xn−2.
+testLoop <- function(x){
+  xVec <- rep(NA,x-1)
+  xVec[1] <- 1
+  xVec[2] <- 2
+  for(j in 3:(x-1))
+  xVec[j] <- xVec[j-1]+2/xVec[j-1]
+  xVec
+}
 
+#(b) Now write a function testLoop2 which takes a single argument yVec which is a vector.
+#The function should return ∑n j=1 e^j where n is the length of yVec.
+testLoop2 <- function(yVec){
+  n <-length(yVec)
+  sum(exp(seq(along=yVec)))
+}
 
-
-
-
+#9)
