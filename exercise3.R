@@ -147,4 +147,66 @@ testLoop2 <- function(yVec){
   sum(exp(seq(along=yVec)))
 }
 
-#9)
+#9) Solution of the difference equation xn = rxn−1(1 − xn−1), with starting value x1.
+
+#(a) Write a function quadmap( start, rho, niter ) which returns the vector (x1, . . . , xn) where xk =
+#rxk−1(1 − xk−1) and
+#niter denotes n,
+#start denotes x1, and
+#rho denotes r.
+quadmap <- function(start,rho,niter){
+  xVec <- rep(NA,niter)
+  xVec[1] <- start
+  for(i in 1:(niter-1)){
+    xVec[i +1] <- rho * xVec[i] * (1-xVec[i])
+  }
+  xVec
+}
+tmp3 <- quadmap(start=0.95,rho=2.99,niter=500)
+tmp3
+plot(tmp3, type="l")
+plot(tmp3[300:500],type="l")
+
+#(b) Now write a function which determines the number of iterations needed to get | xn − xn−1 |< 0.02.
+#So this function has only 2 arguments: start and rho.
+#(For start=0.95 and rho=2.99, the answer is 84.)
+quadmap2 <- function(start,rho,max1=.02){
+  x1 <- start
+  x2 <- rho*x1*(1-x1)
+  x3 <- 1
+  while(abs(x1-x2)>=max1){
+    x1 <- x2
+    x2 <- rho*x1*(1-x1)
+    x3 <- x3+1
+  }
+  x3
+}
+quadmap2(0.95,2.99)
+
+#10) Given a vector (x1, . . . , xn), the sample autocorrelation of lag k
+#is defined to be.
+
+#(a) Write a function tmpFn(xVec) which takes a single argument xVec
+#which is a vector and returns a list of two values: r1 and r2.
+#In particular, find r1 and r2 for the vector (2, 5, 8, . . . , 53, 56).
+tmpFn4 <- function(xVec){
+  x1 <- xVec-mean(xVec)
+  denom <- sum(x1^2)
+  n <- length(x1)
+  r1 <- sum(x1[2:n]*x1[1:(n-1)])/denom
+  r2 <- sum(x1[3:n]*x1[1:(n-2)])/denom
+  list(r1=r1,r2=r2)
+}
+
+#(b) Generalise the function so that it takes two arguments:
+#the vector xVec and an integer k which lies
+#between 1 and n − 1 where n is the length of xVec.
+#The function should return a vector of the values (r0 = 1, r1, . . . , rk).
+tmpAcf <- function(x, k)
+{
+  x2 <- x - mean(x)
+  denom <- sum(x2^2)
+  n <- length(x)
+  tmp <- function(a){ sum( x2[(a+1):n] * x2[1:(n-a)] )/denom }
+  c(1, sapply(1:k, tmp))
+}
